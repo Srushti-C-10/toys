@@ -154,7 +154,7 @@ namespace Microsoft.PowerToys.Settings.UI.Library
             }
         }
 
-        private bool monacoPreviewMinimap = true;
+        private bool monacoPreviewMinimap;
 
         [JsonPropertyName("monaco-previewer-minimap")]
         [JsonConverter(typeof(BoolPropertyJsonConverter))]
