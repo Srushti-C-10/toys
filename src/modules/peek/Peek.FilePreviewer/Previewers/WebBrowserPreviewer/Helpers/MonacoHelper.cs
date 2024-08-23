@@ -79,9 +79,9 @@ namespace Peek.FilePreviewer.Previewers
             string html = Microsoft.PowerToys.FilePreviewCommon.MonacoHelper.ReadIndexHtml();
 
             html = html.Replace("[[PT_LANG]]", vsCodeLangSet, StringComparison.InvariantCulture);
-            html = html.Replace("[[PT_WRAP]]", wrapText ? "1" : "0", StringComparison.InvariantCulture);
-            html = html.Replace("[[PT_CONTEXTMENU]]", "0", StringComparison.InvariantCulture);
-            html = html.Replace("[[PT_STICKY_SCROLL]]", stickyScroll ? "1" : "0", StringComparison.InvariantCulture);
+            html = html.Replace("[[PT_WRAP]]", wrapText ? "true" : "false", StringComparison.InvariantCulture);
+            html = html.Replace("[[PT_CONTEXTMENU]]", "false", StringComparison.InvariantCulture);
+            html = html.Replace("[[PT_STICKY_SCROLL]]", stickyScroll ? "true" : "false", StringComparison.InvariantCulture);
             html = html.Replace("[[PT_THEME]]", theme, StringComparison.InvariantCulture);
             html = html.Replace("[[PT_FONT_SIZE]]", fontSize.ToString(CultureInfo.InvariantCulture), StringComparison.InvariantCulture);
             html = html.Replace("[[PT_CODE]]", base64FileCode, StringComparison.InvariantCulture);
