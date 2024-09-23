@@ -36,6 +36,7 @@ namespace PowerAccent.Core
         LT,
         MK,
         MI,
+        MATH,
         NL,
         NO,
         PI,
@@ -82,6 +83,7 @@ namespace PowerAccent.Core
                 Language.LT => GetDefaultLetterKeyLT(letter), // Lithuanian
                 Language.MK => GetDefaultLetterKeyMK(letter), // Macedonian
                 Language.MI => GetDefaultLetterKeyMI(letter), // Maori
+                Language.MATH => GetDefaultLetterKeyMATH(letter), // Mathematics
                 Language.NL => GetDefaultLetterKeyNL(letter), // Dutch
                 Language.NO => GetDefaultLetterKeyNO(letter), // Norwegian
                 Language.PI => GetDefaultLetterKeyPI(letter), // Pinyin
@@ -116,7 +118,6 @@ namespace PowerAccent.Core
                 .Union(GetDefaultLetterKeyGA(letter))
                 .Union(GetDefaultLetterKeyGD(letter))
                 .Union(GetDefaultLetterKeyDE(letter))
-                .Union(GetDefaultLetterKeyEL(letter))
                 .Union(GetDefaultLetterKeyEST(letter))
                 .Union(GetDefaultLetterKeyEPO(letter))
                 .Union(GetDefaultLetterKeyFI(letter))
@@ -131,6 +132,7 @@ namespace PowerAccent.Core
                 .Union(GetDefaultLetterKeyLT(letter))
                 .Union(GetDefaultLetterKeyMK(letter))
                 .Union(GetDefaultLetterKeyMI(letter))
+                .Union(GetDefaultLetterKeyMATH(letter))
                 .Union(GetDefaultLetterKeyNL(letter))
                 .Union(GetDefaultLetterKeyNO(letter))
                 .Union(GetDefaultLetterKeyPI(letter))
@@ -158,21 +160,11 @@ namespace PowerAccent.Core
         {
             return letter switch
             {
-                LetterKey.VK_0 => new[] { "₀", "⁰", "↉" },
-                LetterKey.VK_1 => new[] { "₁", "¹", "½", "⅓", "¼", "⅕", "⅙", "⅐", "⅛", "⅑", "⅒" },
-                LetterKey.VK_2 => new[] { "₂", "²", "⅔", "⅖" },
-                LetterKey.VK_3 => new[] { "₃", "³", "¾", "⅗", "⅜" },
-                LetterKey.VK_4 => new[] { "₄", "⁴", "⅘" },
-                LetterKey.VK_5 => new[] { "₅", "⁵", "⅚", "⅝" },
-                LetterKey.VK_6 => new[] { "₆", "⁶" },
-                LetterKey.VK_7 => new[] { "₇", "⁷", "⅞" },
-                LetterKey.VK_8 => new[] { "₈", "⁸", "∞" },
-                LetterKey.VK_9 => new[] { "₉", "⁹" },
-                LetterKey.VK_A => new[] { "ȧ", "ǽ", "∀" },
+                LetterKey.VK_A => new[] { "ȧ", "ǽ" },
                 LetterKey.VK_B => new[] { "ḃ" },
-                LetterKey.VK_C => new[] { "ċ", "°C", "©", "ℂ", "∁" },
-                LetterKey.VK_D => new[] { "ḍ", "ḋ", "∂" },
-                LetterKey.VK_E => new[] { "∈", "∃", "∄", "∉", "ĕ" },
+                LetterKey.VK_C => new[] { "ċ", "°C", "©" },
+                LetterKey.VK_D => new[] { "ḍ", "ḋ" },
+                LetterKey.VK_E => new[] { "ĕ" },
                 LetterKey.VK_F => new[] { "ḟ", "°F" },
                 LetterKey.VK_G => new[] { "ģ", "ǧ", "ġ", "ĝ", "ǥ" },
                 LetterKey.VK_H => new[] { "ḣ", "ĥ", "ħ" },
@@ -180,28 +172,64 @@ namespace PowerAccent.Core
                 LetterKey.VK_K => new[] { "ķ", "ǩ" },
                 LetterKey.VK_L => new[] { "ļ", "₺" }, // ₺ is in VK_T for other languages, but not VK_L, so we add it here.
                 LetterKey.VK_M => new[] { "ṁ" },
-                LetterKey.VK_N => new[] { "ņ", "ṅ", "ⁿ", "ℕ", "№" },
-                LetterKey.VK_O => new[] { "ȯ", "∅" },
-                LetterKey.VK_P => new[] { "ṗ", "℗", "∏", "¶" },
-                LetterKey.VK_Q => new[] { "ℚ" },
-                LetterKey.VK_R => new[] { "ṙ", "®", "ℝ" },
-                LetterKey.VK_S => new[] { "ṡ", "§", "∑" },
+                LetterKey.VK_N => new[] { "ņ", "ṅ", "№" },
+                LetterKey.VK_O => new[] { "ȯ" },
+                LetterKey.VK_P => new[] { "ṗ", "℗", "¶" },
+                LetterKey.VK_R => new[] { "ṙ", "®" },
+                LetterKey.VK_S => new[] { "ṡ", "§" },
                 LetterKey.VK_T => new[] { "ţ", "ṫ", "ŧ", "™" },
                 LetterKey.VK_U => new[] { "ŭ" },
                 LetterKey.VK_V => new[] { "V̇" },
                 LetterKey.VK_W => new[] { "ẇ" },
-                LetterKey.VK_X => new[] { "ẋ", "×" },
+                LetterKey.VK_X => new[] { "ẋ" },
                 LetterKey.VK_Y => new[] { "ẏ", "ꝡ" },
-                LetterKey.VK_Z => new[] { "ʒ", "ǯ", "ℤ" },
-                LetterKey.VK_COMMA => new[] { "∙", "₋", "⁻", "–", "√" }, // – is in VK_MINUS for other languages, but not VK_COMMA, so we add it here.
+                LetterKey.VK_Z => new[] { "ʒ", "ǯ" },
+                LetterKey.VK_COMMA => new[] { "₋", "⁻", "–" }, // – is in VK_MINUS for other languages, but not VK_COMMA, so we add it here.
                 LetterKey.VK_PERIOD => new[] { "…", "\u0300", "\u0301", "\u0302", "\u0303", "\u0304", "\u0308", "\u030B", "\u030C" },
-                LetterKey.VK_MINUS => new[] { "~", "‐", "‑", "‒", "—", "―", "⁓", "−", "⸺", "⸻", "∓" },
-                LetterKey.VK_SLASH_ => new[] { "÷", "√" },
-                LetterKey.VK_DIVIDE_ => new[] { "÷", "√" },
-                LetterKey.VK_MULTIPLY_ => new[] { "×", "⋅" },
-                LetterKey.VK_PLUS => new[] { "≤", "≥", "≠", "≈", "≙", "⊕", "⊗", "∓", "≅", "≡" },
+                LetterKey.VK_MINUS => new[] { "‐", "‑", "‒", "—", "―", "⁓", "−", "⸺", "⸻" },
                 _ => Array.Empty<string>(),
             };
+        }
+
+        // Mathematics
+        private static string[] GetDefaultLetterKeyMATH(LetterKey letter)
+        {
+            string[] characters = letter switch
+            {
+                LetterKey.VK_0 => new[] { "₀", "⁰", "°", "∅", "↉" },
+                LetterKey.VK_1 => new[] { "₁", "¹", "½", "⅓", "¼", "⅕", "⅙", "⅐", "⅛", "⅑", "⅒" },
+                LetterKey.VK_2 => new[] { "₂", "²", "⅔", "⅖", "√" },
+                LetterKey.VK_3 => new[] { "₃", "³", "¾", "⅗", "⅜", "∛" },
+                LetterKey.VK_4 => new[] { "₄", "⁴", "⅘", "∜" },
+                LetterKey.VK_5 => new[] { "₅", "⁵", "⅚", "⅝" },
+                LetterKey.VK_6 => new[] { "₆", "⁶" },
+                LetterKey.VK_7 => new[] { "₇", "⁷", "⅞" },
+                LetterKey.VK_8 => new[] { "₈", "⁸", "∞", "∝" },
+                LetterKey.VK_9 => new[] { "₉", "⁹" },
+                LetterKey.VK_A => new[] { "∀" },
+                LetterKey.VK_C => new[] { "ℂ", "∁" },
+                LetterKey.VK_D => new[] { "∂", "◇" },
+                LetterKey.VK_E => new[] { "∃", "∄", "∈", "∉" },
+                LetterKey.VK_F => new[] { "ƒ" },
+                LetterKey.VK_N => new[] { "ⁿ", "ℕ" },
+                LetterKey.VK_P => new[] { "∏", "⊥", "⊢", "⊬" },
+                LetterKey.VK_Q => new[] { "ℚ" },
+                LetterKey.VK_R => new[] { "ℝ" },
+                LetterKey.VK_S => new[] { "∑", "∫", "∮" },
+                LetterKey.VK_T => new[] { "⊨", "⊭" },
+                LetterKey.VK_X => new[] { "×", "⋅" },
+                LetterKey.VK_Z => new[] { "ℤ" },
+                LetterKey.VK_PLUS => new[] { "≤", "≥", "±", "⇔", "₊", "⁺", "≠", "≅", "≈", "≙", "≜", "≔", "≝", "≡", "⊕", "⊗", "⊙" },
+                LetterKey.VK_COMMA => new[] { "≤", "⇐", "⋃", "⋁", "⊆", "⊂", "⊄", "∌", "∋", "≪" },
+                LetterKey.VK_PERIOD => new[] { "≥", "⇒", "⋂", "⋀", "⊇", "⊃", "⊅", "∉", "∈", "≫" },
+                LetterKey.VK_SLASH_ => new[] { "÷", "‰", "½", "⅓", "⅔", "¼", "¾", "√" },
+                LetterKey.VK_MINUS => new[] { "∓", "~" },
+                LetterKey.VK_MULTIPLY_ => new[] { "×", "⋅", "^", "¬", "∴", "∵" },
+                LetterKey.VK_DIVIDE_ => new[] { "÷", "√", "∠", "∡", "∢", "⦝", "⦜" },
+                _ => Array.Empty<string>(),
+            };
+
+            return characters.Union(GetDefaultLetterKeyEL(letter)).ToArray();
         }
 
         // Bulgarian
@@ -486,10 +514,8 @@ namespace PowerAccent.Core
                 LetterKey.VK_E => new[] { "é", "ê", "€" },
                 LetterKey.VK_I => new[] { "í" },
                 LetterKey.VK_O => new[] { "ô", "ó", "õ", "º" },
-                LetterKey.VK_P => new[] { "π" },
                 LetterKey.VK_S => new[] { "$" },
                 LetterKey.VK_U => new[] { "ú" },
-                LetterKey.VK_COMMA => new[] { "≤", "≥", "≠", "≈", "≙", "±", "₊", "⁺" },
                 _ => Array.Empty<string>(),
             };
         }
@@ -606,7 +632,7 @@ namespace PowerAccent.Core
                 LetterKey.VK_T => new string[] { "τ", "θ", "ϑ" },
                 LetterKey.VK_U => new string[] { "υ", "ύ" },
                 LetterKey.VK_X => new string[] { "ξ" },
-                LetterKey.VK_Y => new string[] { "υ" },
+                LetterKey.VK_Y => new string[] { "υ", "ύ" },
                 LetterKey.VK_Z => new string[] { "ζ" },
                 _ => Array.Empty<string>(),
             };
