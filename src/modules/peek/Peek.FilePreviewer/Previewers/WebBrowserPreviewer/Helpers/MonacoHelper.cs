@@ -87,7 +87,7 @@ namespace Peek.FilePreviewer.Previewers
             html = html.Replace("[[PT_CODE]]", base64FileCode, StringComparison.InvariantCulture);
             html = html.Replace("[[PT_URL]]", Microsoft.PowerToys.FilePreviewCommon.MonacoHelper.VirtualHostName, StringComparison.InvariantCulture);
             html = html.Replace("[[PT_MINIMAP]]", minimap ? "true" : "false", StringComparison.InvariantCulture);
-            
+
             string filename = tempFolder + "\\" + Guid.NewGuid().ToString() + ".html";
             File.WriteAllText(filename, html);
             return filename;
