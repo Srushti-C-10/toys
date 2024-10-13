@@ -326,7 +326,7 @@
     <value>Toggle text wrapping</value>
     <comment>Toggle whether text in pane is word-wrapped</comment>
   </data>
-  <data name="NoMoreFiles" xml:space="preserve">
+  <data name="NoMoreFiles.Text" xml:space="preserve">
     <value>No more files to preview.</value>
     <comment>The message to show when there are no files remaining to preview.</comment>
   </data>

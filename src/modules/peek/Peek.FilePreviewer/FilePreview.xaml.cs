@@ -65,9 +65,6 @@ namespace Peek.FilePreviewer
         [ObservableProperty]
         private string infoTooltip = ResourceLoaderInstance.ResourceLoader.GetString("PreviewTooltip_Blank");
 
-        [ObservableProperty]
-        private string noMoreFilesText = ResourceLoaderInstance.ResourceLoader.GetString("NoMoreFiles");
-
         private CancellationTokenSource _cancellationTokenSource = new();
 
         public FilePreview()
