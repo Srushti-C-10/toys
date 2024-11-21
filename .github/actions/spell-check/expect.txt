@@ -751,6 +751,7 @@ Jsons
 jsonval
 junja
 jxr
+KBSC
 kdc
 keybd
 KEYBDDATA
@@ -1600,6 +1601,7 @@ targetentrypoint
 TARGETHEADER
 targetver
 taskkill
+taskmgr
 taskschd
 tchar
 Tcollab
