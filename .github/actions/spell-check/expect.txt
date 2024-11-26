@@ -375,6 +375,7 @@ drivedetectionwarning
 dshow
 DSTINVERT
 DUMMYUNIONNAME
+dupenv
 dutil
 DVASPECT
 DVASPECTINFO
@@ -641,8 +642,10 @@ IBeam
 ICapture
 IClass
 ICONERROR
+ICONINFORMATION
 ICONLOCATION
 IData
+IDCANCEL
 IDD
 IDesktop
 IDirect
