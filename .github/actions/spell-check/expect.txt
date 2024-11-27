@@ -51,6 +51,7 @@ APeriod
 apidl
 APIENTRY
 APIIs
+apng
 Apm
 APPBARDATA
 appdata
@@ -170,6 +171,7 @@ ceq
 certlm
 certmgr
 cfp
+CEscaped
 cguid
 CHANGECBCHAIN
 changecursor
@@ -744,6 +746,7 @@ jpnime
 Jsons
 jsonval
 junja
+jxl
 jxr
 keybd
 KEYBDDATA
@@ -1157,6 +1160,8 @@ PINDIR
 pinfo
 pinvoke
 pipename
+pjp
+pjpeg
 PKBDLLHOOKSTRUCT
 plib
 PLK
@@ -1184,6 +1189,7 @@ pprm
 pproc
 ppshv
 ppsi
+ppsia
 ppsid
 ppsrm
 ppsrree
@@ -1334,6 +1340,7 @@ rgbs
 rgelt
 rgf
 rgn
+rgpidl
 rgs
 RIDEV
 RIGHTSCROLLBAR
@@ -1668,6 +1675,8 @@ uncompilable
 UNCPRIORITY
 UNDNAME
 UNICODETEXT
+Unisntaller
+uninstaller
 uninstantiated
 uniquifier
 Uniquifies
@@ -1760,6 +1769,7 @@ vswhere
 Vtbl
 WANTMAPPINGHANDLE
 WANTPALM
+Wagnerp
 wbem
 Wbemidl
 wbemuuid
