@@ -638,6 +638,7 @@ HWNDNEXT
 HWNDPREV
 hyjiacan
 IApp
+IAI
 IBeam
 ICapture
 IClass
@@ -1471,6 +1472,7 @@ SIZENS
 SIZENWSE
 sizeread
 SIZEWE
+SKEXP
 SKIPOWNPROCESS
 sku
 SLGP
