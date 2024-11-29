@@ -29,14 +29,12 @@ namespace Awake.Core
     internal static class TrayHelper
     {
         private static NotifyIconData _notifyIconData;
-        private static IntPtr _trayMenu;
-        private static IntPtr _hiddenWindowHandle;
         private static SingleThreadSynchronizationContext? _syncContext;
         private static Thread? _mainThread;
 
-        private static IntPtr TrayMenu { get => _trayMenu; set => _trayMenu = value; }
+        private static IntPtr TrayMenu { get; set; }
 
-        internal static IntPtr HiddenWindowHandle { get => _hiddenWindowHandle; private set => _hiddenWindowHandle = value; }
+        internal static IntPtr HiddenWindowHandle { get; private set; }
 
         static TrayHelper()
         {
@@ -59,7 +57,7 @@ namespace Awake.Core
             Bridge.ScreenToClient(hWnd, ref cursorPos);
 
             // Set menu information
-            var menuInfo = new MenuInfo
+            MenuInfo menuInfo = new()
             {
                 CbSize = (uint)Marshal.SizeOf<MenuInfo>(),
                 FMask = Native.Constants.MIM_STYLE,
@@ -169,7 +167,7 @@ namespace Awake.Core
                         break;
                 }
 
-                if (action == TrayIconAction.Add || action == TrayIconAction.Update)
+                if (action is TrayIconAction.Add or TrayIconAction.Update)
                 {
                     _notifyIconData = new NotifyIconData
                     {
@@ -193,12 +191,25 @@ namespace Awake.Core
                     };
                 }
 
-                if (!Bridge.Shell_NotifyIcon(message, ref _notifyIconData))
+                for (int attempt = 1; attempt <= 3; attempt++)
                 {
-                    int errorCode = Marshal.GetLastWin32Error();
-                    Logger.LogInfo($"Could not set the shell icon. Action: {action} and error code: {errorCode}. HIcon handle is {icon?.Handle} and HWnd is {hWnd}");
+                    if (Bridge.Shell_NotifyIcon(message, ref _notifyIconData))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        int errorCode = Marshal.GetLastWin32Error();
+                        Logger.LogInfo($"Could not set the shell icon. Action: {action}, error code: {errorCode}. HIcon handle is {icon?.Handle} and HWnd is {hWnd}");
 
-                    throw new Win32Exception(errorCode, $"Failed to change tray icon. Action: {action} and error code: {errorCode}");
+                        if (attempt == 3)
+                        {
+                            Logger.LogError($"Failed to change tray icon after 3 attempts. Action: {action} and error code: {errorCode}");
+                            break;
+                        }
+
+                        Thread.Sleep(100);
+                    }
                 }
 
                 if (action == TrayIconAction.Delete)
@@ -228,7 +239,7 @@ namespace Awake.Core
             switch (message)
             {
                 case Native.Constants.WM_USER:
-                    if (lParam == (IntPtr)Native.Constants.WM_LBUTTONDOWN || lParam == (IntPtr)Native.Constants.WM_RBUTTONDOWN)
+                    if (lParam is Native.Constants.WM_LBUTTONDOWN or Native.Constants.WM_RBUTTONDOWN)
                     {
                         // Show the context menu associated with the tray icon
                         ShowContextMenu(hWnd);
@@ -282,7 +293,7 @@ namespace Awake.Core
                                     }
 
                                     int index = (int)targetCommandIndex - (int)TrayCommands.TC_TIME;
-                                    uint targetTime = (uint)settings.Properties.CustomTrayTimes.ElementAt(index).Value;
+                                    uint targetTime = settings.Properties.CustomTrayTimes.ElementAt(index).Value;
                                     Manager.SetTimedKeepAwake(targetTime, keepDisplayOn: settings.Properties.KeepDisplayOn);
                                 }
 
@@ -326,7 +337,7 @@ namespace Awake.Core
                 startedFromPowerToys);
         }
 
-        public static void SetTray(bool keepDisplayOn, AwakeMode mode, Dictionary<string, int> trayTimeShortcuts, bool startedFromPowerToys)
+        public static void SetTray(bool keepDisplayOn, AwakeMode mode, Dictionary<string, uint> trayTimeShortcuts, bool startedFromPowerToys)
         {
             ClearExistingTrayMenu();
             CreateNewTrayMenu(startedFromPowerToys, keepDisplayOn, mode);
@@ -382,7 +393,7 @@ namespace Awake.Core
             Bridge.InsertMenu(TrayMenu, (uint)position, Native.Constants.MF_BYPOSITION | Native.Constants.MF_SEPARATOR, 0, string.Empty);
         }
 
-        private static void EnsureDefaultTrayTimeShortcuts(Dictionary<string, int> trayTimeShortcuts)
+        private static void EnsureDefaultTrayTimeShortcuts(Dictionary<string, uint> trayTimeShortcuts)
         {
             if (trayTimeShortcuts.Count == 0)
             {
@@ -390,15 +401,15 @@ namespace Awake.Core
             }
         }
 
-        private static void CreateAwakeTimeSubMenu(Dictionary<string, int> trayTimeShortcuts, bool isChecked = false)
+        private static void CreateAwakeTimeSubMenu(Dictionary<string, uint> trayTimeShortcuts, bool isChecked = false)
         {
-            var awakeTimeMenu = Bridge.CreatePopupMenu();
+            nint awakeTimeMenu = Bridge.CreatePopupMenu();
             for (int i = 0; i < trayTimeShortcuts.Count; i++)
             {
                 Bridge.InsertMenu(awakeTimeMenu, (uint)i, Native.Constants.MF_BYPOSITION | Native.Constants.MF_STRING, (uint)TrayCommands.TC_TIME + (uint)i, trayTimeShortcuts.ElementAt(i).Key);
             }
 
-            Bridge.InsertMenu(TrayMenu, 0, Native.Constants.MF_BYPOSITION | Native.Constants.MF_POPUP | (isChecked == true ? Native.Constants.MF_CHECKED : Native.Constants.MF_UNCHECKED), (uint)awakeTimeMenu, Resources.AWAKE_KEEP_ON_INTERVAL);
+            Bridge.InsertMenu(TrayMenu, 0, Native.Constants.MF_BYPOSITION | Native.Constants.MF_POPUP | (isChecked ? Native.Constants.MF_CHECKED : Native.Constants.MF_UNCHECKED), (uint)awakeTimeMenu, Resources.AWAKE_KEEP_ON_INTERVAL);
         }
 
         private static void InsertAwakeModeMenuItems(AwakeMode mode)
